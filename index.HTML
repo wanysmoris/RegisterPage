@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="JS/scripts.js"></script>
+    <title data-lang="Company Registration Form">نموذج تسجيل الشركة</title>
+</head>
+<body>
+    <header>
+        <h1 data-lang="Company Registration Form">نموذج تسجيل الشركة</h1>
+        <!-- Language Switch Dropdown -->
+        <div id="languageSwitcher">
+            <label for="languageSelect" data-lang="Switch Language">تغيير اللغة:</label>
+            <select id="languageSelect" onchange="changeLanguage()">
+                <option value="ar" selected>عربي</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+    </header>
+
+    <form id="registrationForm">
+        <!-- Form Fields -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="firstName" data-lang="First Name">الاسم الأول:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="secondName" data-lang="Second Name">الاسم الثاني:</label>
+                <input type="text" id="secondName" name="secondName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="thirdName" data-lang="Third Name">الاسم الثالث:</label>
+                <input type="text" id="thirdName" name="thirdName" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="dateOfBirth" data-lang="Date of Birth">تاريخ الميلاد:</label>
+                <input type="text" id="dateOfBirth" name="dateOfBirth" data-input>
+            </div>
+
+            <div class="form-group">
+                <label for="gender" data-lang="Gender">الجنس:</label>
+                <select id="gender" name="gender">
+                    <option value="male" data-lang="Male">ذكر</option>
+                    <option value="female" data-lang="Female">أنثى</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="firstAddress" data-lang="First Address">العنوان الأول:</label>
+                <input type="text" id="firstAddress" name="firstAddress" required>
+            </div>
+
+            <div class="form-group">
+                <label for="secondAddress" data-lang="Second Address">العنوان الثاني:</label>
+                <input type="text" id="secondAddress" name="secondAddress" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="securityQuestion" data-lang="Security Question">سؤال الأمان:</label>
+                <input type="text" id="securityQuestion" name="securityQuestion" required>
+            </div>
+
+            <div class="form-group">
+                <label for="securityAnswer" data-lang="Security Answer">إجابة الأمان:</label>
+                <input type="text" id="securityAnswer" name="securityAnswer" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="username" data-lang="Username">اسم المستخدم:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password" data-lang="Password">كلمة المرور:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="confirmPassword" data-lang="Confirm Password">تأكيد كلمة المرور:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email" data-lang="Email">البريد الإلكتروني:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="file" data-lang="Upload Files">تحميل الملفات:</label>
+                <input type="file" id="file" name="file" multiple>
+            </div>
+
+            <button type="button" onclick="uploadFile()" data-lang="Upload">تحميل</button>
+        </div>
+
+        <!-- Uploaded Files Table -->
+        <table id="uploadedFilesTable">
+            <thead>
+                <tr>
+                    <th data-lang="File Name">اسم الملف</th>
+                    <th data-lang="Actions">الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="fileTableBody"></tbody>
+        </table>
+
+        <!-- Error Container -->
+        <div id="errorContainer"></div>
+
+        <!-- Submit Button -->
+        <button type="button" onclick="submitForm()" data-lang="Submit">إرسال</button>
+    </form>
+</body>
+</html>

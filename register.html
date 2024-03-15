@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Add Axios library -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .btn-register {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+        }
+
+            .btn-register:hover {
+                background-color: #218838;
+            }
+
+        .education-entry, .experience-entry, .skill-entry {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2 class="h4 font-weight-bold">User Registration</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="registrationForm">
+
+                            <!-- Personal Information -->
+                            <div class="form-group">
+                                <label for="full_name">Full Name:</label>
+                                <input type="text" class="form-control" id="full_name" name="full_name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number:</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                            </div>
+
+                            <!-- Address Information -->
+                            <div class="form-group">
+                                <label for="address">Address:</label>
+                                <input type="text" class="form-control" id="address" name="address" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="city">City:</label>
+                                    <input type="text" class="form-control" id="city" name="city" required>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="state">State:</label>
+                                    <input type="text" class="form-control" id="state" name="state" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="zip_code">Zip Code:</label>
+                                <input type="text" class="form-control" id="zip_code" name="zip_code" required>
+                            </div>
+
+                            <!-- Educational Information -->
+                            <h4 class="h5 font-weight-bold mb-3">Educational Information</h4>
+                            <div id="education-container">
+                                <div class="education-entry">
+                                    <div class="form-group">
+                                        <label for="education_degree">Degree:</label>
+                                        <input type="text" class="form-control" name="education_degree[]" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="education_school">School/University:</label>
+                                        <input type="text" class="form-control" name="education_school[]" required>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="education_start_date">Start Date:</label>
+                                            <input type="date" class="form-control" name="education_start_date[]" required>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="education_end_date">End Date:</label>
+                                            <input type="date" class="form-control" name="education_end_date[]" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addEducation()">Add Education</button>
+
+                            <!-- Job Experiences -->
+                            <h4 class="h5 font-weight-bold mt-4 mb-3">Job Experiences</h4>
+                            <div id="experience-container">
+                                <div class="experience-entry">
+                                    <div class="form-group">
+                                        <label for="job_title">Job Title:</label>
+                                        <input type="text" class="form-control" name="job_title[]" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="company_name">Company Name:</label>
+                                        <input type="text" class="form-control" name="company_name[]" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="job_description">Job Description:</label>
+                                        <textarea class="form-control" name="job_description[]" rows="3" required></textarea>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="job_start_date">Start Date:</label>
+                                            <input type="date" class="form-control" name="job_start_date[]" required>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="job_end_date">End Date:</label>
+                                            <input type="date" class="form-control" name="job_end_date[]" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addExperience()">Add Experience</button>
+
+                            <!-- Skills -->
+                            <h4 class="h5 font-weight-bold mt-4 mb-3">Skills</h4>
+                            <div id="skill-container">
+                                <div class="skill-entry">
+                                    <div class="form-group">
+                                        <label for="skill">Skill:</label>
+                                        <input type="text" class="form-control" name="skill[]" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addSkill()">Add Skill</button>
+
+                            <!-- User Login Information -->
+                            <h4 class="h5 font-weight-bold mt-4 mb-3">User Login Information</h4>
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirm_password">Confirm Password:</label>
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="security_question">Security Question:</label>
+                                <select class="form-control" id="security_question" name="security_question" required>
+                                    <option value="" selected disabled>Select a security question</option>
+                                    <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+                                    <option value="What city were you born in?">What city were you born in?</option>
+                                    <!-- Add more security questions as needed -->
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="security_answer">Security Answer:</label>
+                                <input type="text" class="form-control" id="security_answer" name="security_answer" required>
+                            </div>
+
+                            <!-- Additional Information -->
+                            <div class="form-group mt-4">
+                                <label for="resume">Upload Resume (PDF or Word):</label>
+                                <input type="file" class="form-control-file" id="resume" name="resume" accept=".pdf, .doc, .docx">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="linkedin_profile">LinkedIn Profile:</label>
+                                <input type="url" class="form-control" id="linkedin_profile" name="linkedin_profile">
+                            </div>
+
+                            <!-- Terms and Conditions -->
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="agree_terms" name="agree_terms" required>
+                                <label class="form-check-label" for="agree_terms">I agree to the terms and conditions</label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="button" class="btn btn-register btn-block mt-4" onclick="showConfirmationModal()">Register</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Registration</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Please review your information before submitting:</p>
+                    <!-- Display user information here -->
+                    <ul id="userInfoList"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        let educationEntryCount = 1;
+        let experienceEntryCount = 1;
+        let skillEntryCount = 1;
+
+        function addEducation() {
+            const container = document.getElementById('education-container');
+            const newEducationEntry = createEducationEntry();
+
+            container.appendChild(newEducationEntry);
+            educationEntryCount++;
+        }
+
+        function addExperience() {
+            const container = document.getElementById('experience-container');
+            const newExperienceEntry = createExperienceEntry();
+
+            container.appendChild(newExperienceEntry);
+            experienceEntryCount++;
+        }
+
+        function addSkill() {
+            const container = document.getElementById('skill-container');
+            const newSkillEntry = createSkillEntry();
+
+            container.appendChild(newSkillEntry);
+            skillEntryCount++;
+        }
+
+        function createEducationEntry() {
+            const educationEntry = document.createElement('div');
+            educationEntry.classList.add('education-entry');
+
+            const degreeInput = createInput('text', 'education_degree[]', 'Degree:', true);
+            const schoolInput = createInput('text', 'education_school[]', 'School/University:', true);
+            const startDateInput = createInput('date', 'education_start_date[]', 'Start Date:', true);
+            const endDateInput = createInput('date', 'education_end_date[]', 'End Date:', true);
+
+            educationEntry.appendChild(degreeInput);
+            educationEntry.appendChild(schoolInput);
+            educationEntry.appendChild(startDateInput);
+            educationEntry.appendChild(endDateInput);
+
+            return educationEntry;
+        }
+
+        function createExperienceEntry() {
+            const experienceEntry = document.createElement('div');
+            experienceEntry.classList.add('experience-entry');
+
+            const jobTitleInput = createInput('text', 'job_title[]', 'Job Title:', true);
+            const companyNameInput = createInput('text', 'company_name[]', 'Company Name:', true);
+            const jobDescriptionInput = createTextarea('job_description[]', 'Job Description:', true);
+            const jobStartDateInput = createInput('date', 'job_start_date[]', 'Start Date:', true);
+            const jobEndDateInput = createInput('date', 'job_end_date[]', 'End Date:', true);
+
+            experienceEntry.appendChild(jobTitleInput);
+            experienceEntry.appendChild(companyNameInput);
+            experienceEntry.appendChild(jobDescriptionInput);
+            experienceEntry.appendChild(jobStartDateInput);
+            experienceEntry.appendChild(jobEndDateInput);
+
+            return experienceEntry;
+        }
+
+        function createSkillEntry() {
+            const skillEntry = document.createElement('div');
+            skillEntry.classList.add('skill-entry');
+
+            const skillInput = createInput('text', 'skill[]', 'Skill:', true);
+
+            skillEntry.appendChild(skillInput);
+
+            return skillEntry;
+        }
+
+        function createInput(type, name, label, required) {
+            const inputDiv = document.createElement('div');
+            inputDiv.classList.add('form-group');
+
+            const inputLabel = document.createElement('label');
+            inputLabel.textContent = label;
+
+            const inputField = document.createElement('input');
+            inputField.type = type;
+            inputField.classList.add('form-control');
+            inputField.name = name;
+            if (required) {
+                inputField.required = true;
+            }
+
+            inputDiv.appendChild(inputLabel);
+            inputDiv.appendChild(inputField);
+
+            return inputDiv;
+        }
+
+        function createTextarea(name, label, required) {
+            const textareaDiv = document.createElement('div');
+            textareaDiv.classList.add('form-group');
+
+            const textareaLabel = document.createElement('label');
+            textareaLabel.textContent = label;
+
+            const textareaField = document.createElement('textarea');
+            textareaField.classList.add('form-control');
+            textareaField.name = name;
+            if (required) {
+                textareaField.required = true;
+            }
+
+            textareaDiv.appendChild(textareaLabel);
+            textareaDiv.appendChild(textareaField);
+
+            return textareaDiv;
+        }
+
+        function showConfirmationModal() {
+            // Populate modal with user information
+            const userInfoList = document.getElementById('userInfoList');
+            userInfoList.innerHTML = '';
+
+            const userData = {
+                'Full Name': document.getElementById('full_name').value,
+                'Email': document.getElementById('email').value,
+                'Phone Number': document.getElementById('phone').value,
+                'Address': document.getElementById('address').value,
+                'City': document.getElementById('city').value,
+                'State': document.getElementById('state').value,
+                'Zip Code': document.getElementById('zip_code').value,
+                // ... (add more fields as needed)
+            };
+
+            // Educational Information
+            userInfoList.innerHTML += '<h5>Educational Information</h5>';
+            document.querySelectorAll('.education-entry').forEach((entry, index) => {
+                userInfoList.innerHTML += `<strong>Degree ${index + 1}:</strong> ${entry.querySelector('[name="education_degree[]"]').value}<br>`;
+                userInfoList.innerHTML += `<strong>School/University ${index + 1}:</strong> ${entry.querySelector('[name="education_school[]"]').value}<br>`;
+                userInfoList.innerHTML += `<strong>Start Date ${index + 1}:</strong> ${entry.querySelector('[name="education_start_date[]"]').value}<br>`;
+                userInfoList.innerHTML += `<strong>End Date ${index + 1}:</strong> ${entry.querySelector('[name="education_end_date[]"]').value}<br>`;
+            });
+
+            // Job Experiences
+            userInfoList.innerHTML += '<h5>Job Experiences</h5>';
+            document.querySelectorAll('.experience-entry').forEach((entry, index) => {
+                userInfoList.innerHTML += `<strong>Job Title ${index + 1}:</strong> ${entry.querySelector('[name="job_title[]"]').value}<br>`;
+                userInfoList.innerHTML += `<strong>Company Name ${index + 1}:</strong> ${entry.querySelector('[name="company_name[]"]').value}<br>`;
+                userInfoList.innerHTML += `<strong>Job Description ${index + 1}:</strong> ${entry.querySelector('[name="job_description[]"]').value}<br>`;
+                userInfoList.innerHTML += `<strong>Start Date ${index + 1}:</strong> ${entry.querySelector('[name="job_start_date[]"]').value}<br>`;
+                userInfoList.innerHTML += `<strong>End Date ${index + 1}:</strong> ${entry.querySelector('[name="job_end_date[]"]').value}<br>`;
+            });
+
+            // Skills
+            userInfoList.innerHTML += '<h5>Skills</h5>';
+            document.querySelectorAll('.skill-entry').forEach((entry, index) => {
+                userInfoList.innerHTML += `<strong>Skill ${index + 1}:</strong> ${entry.querySelector('[name="skill[]"]').value}<br>`;
+            });
+
+            // User Login Information
+            userInfoList.innerHTML += '<h5>User Login Information</h5>';
+            userData['Username'] = document.getElementById('username').value;
+            userInfoList.innerHTML += `<strong>Username:</strong> ${userData['Username']}<br>`;
+
+            // Display user information in the modal
+            for (const [key, value] of Object.entries(userData)) {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
+                userInfoList.appendChild(listItem);
+            }
+
+            // Show the modal
+            $('#confirmationModal').modal('show');
+        }
+
+        function submitForm() {
+            // Collect user data
+            const userData = {
+                full_name: document.getElementById('full_name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                zip_code: document.getElementById('zip_code').value,
+                education: [],
+                job_experiences: [],
+                skills: [],
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                confirm_password: document.getElementById('confirm_password').value,
+                security_question: document.getElementById('security_question').value,
+                security_answer: document.getElementById('security_answer').value,
+                resume: document.getElementById('resume').value,
+                linkedin_profile: document.getElementById('linkedin_profile').value,
+                agree_terms: document.getElementById('agree_terms').checked,
+            };
+
+            // Collect educational information
+            document.querySelectorAll('.education-entry').forEach(entry => {
+                userData.education.push({
+                    degree: entry.querySelector('[name="education_degree[]"]').value,
+                    school: entry.querySelector('[name="education_school[]"]').value,
+                    start_date: entry.querySelector('[name="education_start_date[]"]').value,
+                    end_date: entry.querySelector('[name="education_end_date[]"]').value,
+                });
+            });
+
+            // Collect job experiences
+            document.querySelectorAll('.experience-entry').forEach(entry => {
+                userData.job_experiences.push({
+                    job_title: entry.querySelector('[name="job_title[]"]').value,
+                    company_name: entry.querySelector('[name="company_name[]"]').value,
+                    job_description: entry.querySelector('[name="job_description[]"]').value,
+                    start_date: entry.querySelector('[name="job_start_date[]"]').value,
+                    end_date: entry.querySelector('[name="job_end_date[]"]').value,
+                });
+            });
+
+            // Collect skills
+            document.querySelectorAll('.skill-entry').forEach(entry => {
+                userData.skills.push({
+                    skill: entry.querySelector('[name="skill[]"]').value,
+                });
+            });
+
+            // Use Axios to send the data to the server
+            axios.post('your-server-endpoint', userData)
+                .then(response => {
+                    // Handle success
+                    console.log(response.data);
+                    // You can redirect the user or show a success message
+                })
+                .catch(error => {
+                    // Handle error
+                    console.error(error);
+                    // Show an error message to the user
+                });
+        }
+    </script>
+</body>
+</html>
